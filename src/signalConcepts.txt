@@ -1,0 +1,37 @@
+How the ui changes according to the changes in the component class ?
+ we are using a library called zone.js which is wiuth full of dom apis used to update the views based on the changes
+ it will look for the changes before and after the event occurs in the browser 
+ when it finds the change in the value it updates the ui
+How Signals change this?
+ if we use a value as a signal it wont look for the chnages in the application the signal will trigger it will update only the particular value 
+ of it
+ for this to happen we have to completely use the signals instead of plain TS 
+ for now signal chnage detection is not implemented but we use signals once the feature comes we can turn it on the things globally instead 
+ of doing it every component
+
+ Signal:
+ set method --> to change the value of the signal
+ update     --> it is update the value of the signal which is based on the old value
+ asReadonly --> which makes the value as read only value
+Signal updating:
+Always we have to modify with update or set method by creating a copy or setting the new value
+ when we are modifying the signal dont modify it directly it will not work in the signal based change detection but 
+ it works in normal changedetection but it is a wrong way of doing it  
+Computed signals:
+ A computed signal is a angulars readonly signal it is automatically re calculated depending on the other source signals
+ computed signals are powerful reactive primitive that allows us to write our application more declarative way
+ it will be executed atleast once and it executes whenver there is a chnage in the source signal
+ Not only in the same component but also in the other components
+ we cant use the computed signals in a cyclic way
+Effects:
+effects is a pure side effects which executes whenever there is a change in the signal which is accessed inside the effects
+effects atleast triggers one time
+use of effects can be minimized 
+effects has to be initilaized only inside the injection context (constructor , field injection) only then angular 
+will know when to clean up the effects otherwise it will lead to memory leakage 
+otherwise we have to say that this injection context we are using to the angular
+effects config : 
+  by default we are not able to write to signals in the effects because it may cause a infinite loop
+  but we can configure it to allowWrite signals property of effects config
+  we can also cleanup the effect by savinng the referrence and callig the destroy method of the effect
+ effect also takes a fallback method which is executed before effect triggered every time and also executes when destroying the effect  
